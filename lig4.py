@@ -7,10 +7,10 @@ class Tabuleiro:
     def mostrarTabuleiro(self):
         
         for l in self.tabuleiro:
-            print(str(l).replace("'", ' ').replace(',', '|').replace(''))
-        print('‾'*35)
-        print([str(col) for col in range(self.colunas)])
-        print()
+            print(str(l).replace("'", ' ').replace(', ', '|')) # As String não são mutáveis, então fiz por listas. Talvez haja uma maneira mais elegante e eficiente!
+        print('‾'*29)
+        [print(f'  {i} ', end='') for i in range(self.colunas)]
+        print('\n')
 
     def inserirPeca(self, peca, coluna):
         for l in reversed(self.tabuleiro):
@@ -19,12 +19,14 @@ class Tabuleiro:
                 break
  
 class Jogador:
-    def __init__(self, nome='', tipo='cpu', pecas='x', vitorias=0, derrotas=0):
+    def __init__(self, nome='', tipo='cpu', pecas='x', vitorias=0, derrotas=0, empates=0):
         self.nome = nome
         self.tipo = tipo
         self.vitorias = vitorias
         self.derrotas = derrotas
+        self.empates = empates
         self.pecas = pecas
+
 
 class Arbitro:
     def __init__(self):
@@ -34,14 +36,14 @@ class Arbitro:
         print('### Bem-vindo ao Lig4! ### \n\nPara iniciar seu jogo, responda às seguintes perguntas: ')
         jogador1 = Jogador()
         jogador2 = Jogador()
-        print(f'test {jogador1.pecas}')
         self.criaJogador(1, jogador1)
         if jogador1.pecas == 'X':
             jogador2.pecas = 'O'
         else:
             jogador2.pecas = 'X'
         self.criaJogador(2, jogador2)
-    
+        return jogador1, jogador2
+
     def validaTipo(self, tipo=''):
         while tipo.lower() not in ['cpu', 'pessoa']:
             print('Ops! Tipo inválido, o tipo do jogador deve ser "pessoa" ou "cpu!')
@@ -67,12 +69,32 @@ class Arbitro:
                 pecas1, pecas2 = 'X', 'O'
             print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}!')
 
+class Jogo:
+    def __init__(self):
+        pass
+    
+    def iniciarJogo(self, tabuleiro, jogador1, jogador2):
+        rodada = 1
+        max_rodadas = tabuleiro.colunas * tabuleiro.linhas
+        partida_finalizada = False
+        while rodada <= max_rodadas and not partida_finalizada:
+            break
+        
+
 
 
 
 tabuleiro = Tabuleiro()
 #arbitro = Arbitro()
-#arbitro.inscreveJogadores()
-tabuleiro.mostrarTabuleiro()
+#jogador1, jogador2 = arbitro.inscreveJogadores()
+'''tabuleiro.mostrarTabuleiro()
 tabuleiro.inserirPeca('X', 1)
+tabuleiro.inserirPeca('X', 1)
+tabuleiro.inserirPeca('X', 2)
+tabuleiro.inserirPeca('X', 2)
+tabuleiro.inserirPeca('X', 2)
+tabuleiro.inserirPeca('X', 2)
+tabuleiro.inserirPeca('X', 4)
+tabuleiro.inserirPeca('X', 5)
+tabuleiro.inserirPeca('X', 6)'''
 tabuleiro.mostrarTabuleiro()
