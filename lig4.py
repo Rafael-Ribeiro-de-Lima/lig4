@@ -1,37 +1,97 @@
+import random
+
 class Tabuleiro:
     def __init__(self, linhas=6, colunas=7):
         self.tabuleiro = [[' ' for x in range(colunas)] for x in range (linhas)]
         self.linhas = linhas
         self.colunas = colunas
     
-    def mostrarTabuleiro(self):
-        
+    def mostrar(self):
         for l in self.tabuleiro:
             print(str(l).replace("'", ' ').replace(', ', '|')) # As String não são mutáveis, então fiz por listas. Talvez haja uma maneira mais elegante e eficiente!
-        print('‾'*29)
+        print('‾'*(4 * self.colunas+1))
         [print(f'  {i} ', end='') for i in range(self.colunas)]
         print('\n')
 
     def inserirPeca(self, peca, coluna):
         for l in reversed(self.tabuleiro):
-            if l[coluna - 1] == ' ':
-                l[coluna - 1] = peca
+            if l[coluna] == ' ':
+                l[coluna] = peca
                 break
- 
+    
+    def jogadaValida(self, coluna):
+        if not isinstance(coluna, int):
+            return False
+        if coluna < 0 or coluna > self.colunas - 1:
+            return False
+        if self.tabuleiro[0][coluna] != ' ':
+            return False
+        else:
+            return True
+            
+        
+        
 class Jogador:
-    def __init__(self, nome='', tipo='cpu', pecas='x', vitorias=0, derrotas=0, empates=0):
+    def __init__(self, nome='', tipo='cpu', pecas='X'):
         self.nome = nome
         self.tipo = tipo
-        self.vitorias = vitorias
-        self.derrotas = derrotas
-        self.empates = empates
         self.pecas = pecas
+        
+    def jogar(self, tabuleiro):
+        if self.tipo == 'pessoa':
+            coluna = int(input('Em qual coluna deseja jogar? '))
+            while not tabuleiro.jogadaValida(coluna):
+                coluna = int(input('Ops, jogada inválida! Tente jogar em outra coluna: '))
+            tabuleiro.inserirPeca(self.pecas, coluna)
+            
+        elif self.tipo == 'cpu':
+            coluna = random.randint(0, tabuleiro.colunas)
+            while not tabuleiro.jogadaValida(coluna):
+                coluna = random.randint(0, tabuleiro.colunas)
+            tabuleiro.inserirPeca(self.pecas, coluna)
+        
 
-
-class Arbitro:
-    def __init__(self):
-        pass
-
+class Jogo:
+   
+    def iniciar(self, tabuleiro):
+        jogador1, jogador2 = self.inscreveJogadores()
+        rodada = 1
+        max_rodadas = tabuleiro.colunas * tabuleiro.linhas
+        partida_finalizada = False
+        while rodada <= max_rodadas and not partida_finalizada:
+            print(f'{rodada}ª Rodada')
+            jogador2.jogar(tabuleiro)
+            tabuleiro.mostrar()
+            if self.venceu(tabuleiro, jogador2):
+                print(f'{jogador2.nome} venceu! Parabéns!')
+                print('----- Jogo finalizado -----')
+                return 
+            jogador1.jogar(tabuleiro)
+            tabuleiro.mostrar()
+            if self.venceu(tabuleiro, jogador1):
+                print(f'{jogador1.nome} venceu! Parabéns!')
+                print('----- Jogo finalizado -----')
+                return 
+            rodada += 1
+        print('O jogo terminou empatado! Que tal jogar novamente?')
+        print('----- Jogo finalizado -----')
+        return 
+    
+    def venceu(self, tabuleiro, jogador):
+        # Verificação Horizontal
+        #....
+        #Verificação Vertical
+        #....
+        #Verificação Diagonal
+        #....
+        return True
+        
+        
+        
+        
+        
+    
+    
     def inscreveJogadores(self):
         print('### Bem-vindo ao Lig4! ### \n\nPara iniciar seu jogo, responda às seguintes perguntas: ')
         jogador1 = Jogador()
@@ -56,7 +116,6 @@ class Arbitro:
             peca = input('Com qual peça você quer jogar? ')
         return peca.upper()
 
-
     def criaJogador(self, player=1, jogador=Jogador('BOT', 'cpu', 'x')):
         jogador.nome = input(f'\nDigite o nome do Jogador {player}: ')
         jogador.tipo = self.validaTipo(input(f'\n{jogador.nome} é uma pessoa ou uma cpu? '))
@@ -68,33 +127,14 @@ class Arbitro:
             else:
                 pecas1, pecas2 = 'X', 'O'
             print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}!')
-
-class Jogo:
-    def __init__(self):
-        pass
     
-    def iniciarJogo(self, tabuleiro, jogador1, jogador2):
-        rodada = 1
-        max_rodadas = tabuleiro.colunas * tabuleiro.linhas
-        partida_finalizada = False
-        while rodada <= max_rodadas and not partida_finalizada:
-            break
+    
+    
         
+    #def jogada(self):
+    
 
 
 
+Jogo().iniciar(Tabuleiro())
 
-tabuleiro = Tabuleiro()
-#arbitro = Arbitro()
-#jogador1, jogador2 = arbitro.inscreveJogadores()
-'''tabuleiro.mostrarTabuleiro()
-tabuleiro.inserirPeca('X', 1)
-tabuleiro.inserirPeca('X', 1)
-tabuleiro.inserirPeca('X', 2)
-tabuleiro.inserirPeca('X', 2)
-tabuleiro.inserirPeca('X', 2)
-tabuleiro.inserirPeca('X', 2)
-tabuleiro.inserirPeca('X', 4)
-tabuleiro.inserirPeca('X', 5)
-tabuleiro.inserirPeca('X', 6)'''
-tabuleiro.mostrarTabuleiro()
