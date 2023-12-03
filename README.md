@@ -5,11 +5,11 @@ This project serves as the Final Project for the Object-Oriented Programming Int
 In the context of this project, only topics covered in class were applied. Therefore, error handling, exceptions, and additional features that could enhance development were not implemented.
 
 ## Game Rules
-Connect 4 is a classic two-player connection game in which the players take turns dropping their colored discs from the top into a vertically suspended grid. The objective of the game is to connect four of one's own discs of the same color consecutively in a line—horizontally, vertically, or diagonally—before the opponent.
+Connect 4 is a classic two-player connection game in which the players take turns dropping their colored discs from the top into a vertically suspended grid. The objective of the game is to connect four of one's own discs of the same color consecutively in a line - horizontally, vertically, or diagonally — before the opponent.
 
-The game is played on a 6x7 grid, and players take turns to drop their discs into one of the columns. The disc will then fall to the lowest available space within that column. The player who successfully connects four discs in a row wins the game.
+The game is played on a 6x7 grid, and players take turns to drop their discs into one of the columns. The disc will then fall to the lowest available space within that column. In the context of the code developed, the colored discs have been represented by "X" and "O". The player who successfully connects four discs in a row wins the game.
 
-## CPU Player Behavior
+## CPU Player Behavior 
 When one of the players is of the "cpu" type, their moves are randomly generated. The CPU player selects a column at random and drops its disc into the lowest available space in that column. This random move simulates the decision-making process of a computer player.
 
 ## Note
