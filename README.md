@@ -9,6 +9,8 @@ Connect 4 is a classic two-player connection game in which the players take turn
 
 The game is played on a 6x7 grid, and players take turns to drop their discs into one of the columns. The disc will then fall to the lowest available space within that column. In the context of the code developed, the colored discs have been represented by "X" and "O". The player who successfully connects four discs in a row wins the game.
 
+![Connect 4 Board](https://a-static.mlcdn.com.br/800x560/jogo-lig-4-estrela-brinquedo-pedagogico-de-raciocinio-logico/fusaogeekpresentes/7947577118/e2818952cce93d04ff112ec1591c6f9c.jpeg)
+
 ## CPU Player Behavior 
 When one of the players is of the "cpu" type, their moves are randomly generated. The CPU player selects a column at random and drops its disc into the lowest available space in that column. This random move simulates the decision-making process of a computer player.
 

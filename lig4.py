@@ -9,7 +9,7 @@ class Tabuleiro:
     
     def mostrar(self):
         for l in self.tabuleiro:
-            print(str(l).replace("'", ' ').replace(', ', '|')) # As String não são mutáveis, então fiz por listas. Talvez haja uma maneira mais elegante e eficiente!
+            print(str(l).replace("'", ' ').replace(', ', '|')) 
         print('‾'*(4 * self.colunas+1))
         [print(f'  {i} ', end='') for i in range(self.colunas)]
         print('\n')
@@ -27,9 +27,9 @@ class Tabuleiro:
     def jogadaValida(self, coluna):
         if not isinstance(coluna, int):
             return False
-        if coluna < 0 or coluna > self.colunas - 1:
+        elif coluna < 0 or coluna > self.colunas - 1:
             return False
-        if self.tabuleiro[0][coluna] != ' ':
+        elif self.tabuleiro[0][coluna] != ' ':
             return False
         else:
             return True
@@ -54,7 +54,7 @@ class Jogador:
             while not tabuleiro.jogadaValida(coluna):
                 coluna = random.randint(0, tabuleiro.colunas)
             linha = tabuleiro.inserirPeca(self.pecas, coluna)
-            time.sleep(0)
+            time.sleep(1)
         tabuleiro.mostrar()
         
         if self.venceu(tabuleiro, coluna, linha):
@@ -83,25 +83,7 @@ class Jogador:
             else:
                 ocorrencias_peca = 0
                 
-        #Verificação Diagonal Invertida
-        lin = linha
-        col = coluna
-        while lin > 0 and col < tabuleiro.colunas - 1:
-            lin -= 1
-            col += 1
-        if lin < tabuleiro.linhas - 3: 
-            ocorrencias_peca = 0
-            while lin <= (tabuleiro.linhas - 1) and col >= 0:
-                if tabuleiro.tabuleiro[lin][col] == self.pecas:
-                    ocorrencias_peca += 1
-                    if ocorrencias_peca == 4:
-                        return True
-                else:
-                    ocorrencias_peca = 0
-                lin += 1
-                col -= 1
-                
-        #Verificação Diagonal Normal
+        #Verificação Diagonal (/)
         lin = linha
         col = coluna
         while lin > 0 and col > 0:
@@ -118,18 +100,35 @@ class Jogador:
                     ocorrencias_peca = 0
                 lin += 1
                 col += 1
-                          
+                
+        #Verificação Diagonal Invertida (\)
+        lin = linha
+        col = coluna
+        while lin > 0 and col < tabuleiro.colunas - 1:
+            lin -= 1
+            col += 1
+        if lin < tabuleiro.linhas - 3: 
+            ocorrencias_peca = 0
+            while lin <= (tabuleiro.linhas - 1) and col >= 0:
+                if tabuleiro.tabuleiro[lin][col] == self.pecas:
+                    ocorrencias_peca += 1
+                    if ocorrencias_peca == 4:
+                        return True
+                else:
+                    ocorrencias_peca = 0
+                lin += 1
+                col -= 1
+                                          
         return False
         
 
 class Jogo:
-    def iniciar(self, tabuleiro):
+    def iniciar(self, tabuleiro=Tabuleiro()):
         jogador1, jogador2 = self.inscreveJogadores()
         rodada = 1
         max_rodadas = tabuleiro.colunas * tabuleiro.linhas
-        partida_finalizada = False
         tabuleiro.mostrar()
-        while rodada <= max_rodadas and not partida_finalizada:
+        while rodada <= max_rodadas:
             print(f'{rodada}ª Rodada')
             jogadaVencedora = jogador2.jogar(tabuleiro)
             if jogadaVencedora:
@@ -180,5 +179,5 @@ class Jogo:
                 pecas1, pecas2 = 'X', 'O'
             print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}!')
       
-Jogo().iniciar(Tabuleiro())
+Jogo().iniciar()
 
