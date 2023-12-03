@@ -1,4 +1,5 @@
 import random
+import time
 
 class Tabuleiro:
     def __init__(self, linhas=6, colunas=7):
@@ -14,10 +15,14 @@ class Tabuleiro:
         print('\n')
 
     def inserirPeca(self, peca, coluna):
+        linha = self.linhas
         for l in reversed(self.tabuleiro):
+            linha -= 1
             if l[coluna] == ' ':
                 l[coluna] = peca
                 break
+        return linha
+        
     
     def jogadaValida(self, coluna):
         if not isinstance(coluna, int):
@@ -39,20 +44,85 @@ class Jogador:
         
     def jogar(self, tabuleiro):
         if self.tipo == 'pessoa':
-            coluna = int(input('Em qual coluna deseja jogar? '))
+            coluna = int(input(f'Em qual coluna {self.nome} deseja jogar? '))
             while not tabuleiro.jogadaValida(coluna):
-                coluna = int(input('Ops, jogada inválida! Tente jogar em outra coluna: '))
-            tabuleiro.inserirPeca(self.pecas, coluna)
+                coluna = int(input(f'Ops, jogada inválida! {self.nome}, tente jogar em outra coluna: '))
+            linha = tabuleiro.inserirPeca(self.pecas, coluna)
             
         elif self.tipo == 'cpu':
             coluna = random.randint(0, tabuleiro.colunas)
             while not tabuleiro.jogadaValida(coluna):
                 coluna = random.randint(0, tabuleiro.colunas)
-            tabuleiro.inserirPeca(self.pecas, coluna)
+            linha = tabuleiro.inserirPeca(self.pecas, coluna)
+            time.sleep(2)
+        tabuleiro.mostrar()
+        
+        if self.venceu(tabuleiro, coluna, linha):
+            print(f'{self.nome} venceu! Parabéns!')
+            print('----- Jogo finalizado -----')
+            return True
+        
+    def venceu(self, tabuleiro, coluna, linha):
+        # Verificação Horizontal
+        ocorrencias_peca = 0
+        for peca in tabuleiro.tabuleiro[linha]:
+            if peca == self.pecas:
+                ocorrencias_peca += 1
+                if ocorrencias_peca == 4:
+                    return True
+            else:
+                ocorrencias_peca = 0
+        
+        #Verificação Vertical
+        ocorrencias_peca = 0
+        for lin in range(tabuleiro.linhas):
+            if tabuleiro.tabuleiro[lin][coluna] == self.pecas:
+                ocorrencias_peca += 1
+                if ocorrencias_peca == 4:
+                    return True
+                else:
+                    ocorrencias_peca = 0
+                
+        #Verificação Diagonal Invertida
+        lin = linha
+        col = coluna
+        while lin > 0 and col < tabuleiro.colunas - 1:
+            lin -= 1
+            col += 1
+        if lin < tabuleiro.linhas - 3: 
+            ocorrencias_peca = 0
+            while lin <= (tabuleiro.linhas - 1) and col >= 0:
+                if tabuleiro.tabuleiro[lin][col] == self.pecas:
+                    ocorrencias_peca += 1
+                    if ocorrencias_peca == 4:
+                        return True
+                else:
+                    ocorrencias_peca = 0
+                lin += 1
+                col -= 1
+                
+        #Verificação Diagonal Normal
+        lin = linha
+        col = coluna
+        while lin > 0 and col > 0:
+            lin -= 1
+            col -= 1
+        if lin < tabuleiro.linhas - 3: 
+            ocorrencias_peca = 0
+            while lin <= (tabuleiro.linhas - 1) and col <= (tabuleiro.colunas - 1):
+                if tabuleiro.tabuleiro[lin][col] == self.pecas:
+                    ocorrencias_peca += 1
+                    if ocorrencias_peca == 4:
+                        return True
+                else:
+                    ocorrencias_peca = 0
+                lin += 1
+                col += 1
+                          
+        return False
         
 
 class Jogo:
-   
     def iniciar(self, tabuleiro):
         jogador1, jogador2 = self.inscreveJogadores()
         rodada = 1
@@ -60,37 +130,16 @@ class Jogo:
         partida_finalizada = False
         while rodada <= max_rodadas and not partida_finalizada:
             print(f'{rodada}ª Rodada')
-            jogador2.jogar(tabuleiro)
-            tabuleiro.mostrar()
-            if self.venceu(tabuleiro, jogador2):
-                print(f'{jogador2.nome} venceu! Parabéns!')
-                print('----- Jogo finalizado -----')
-                return 
+            jogadaVencedora = jogador2.jogar(tabuleiro)
+            if jogadaVencedora:
+                return
             jogador1.jogar(tabuleiro)
-            tabuleiro.mostrar()
-            if self.venceu(tabuleiro, jogador1):
-                print(f'{jogador1.nome} venceu! Parabéns!')
-                print('----- Jogo finalizado -----')
-                return 
+            if jogadaVencedora:
+                return
             rodada += 1
         print('O jogo terminou empatado! Que tal jogar novamente?')
         print('----- Jogo finalizado -----')
         return 
-    
-    def venceu(self, tabuleiro, jogador):
-        # Verificação Horizontal
-        #....
-        #Verificação Vertical
-        #....
-        #Verificação Diagonal
-        #....
-        return True
-        
-        
-        
-        
-        
-    
     
     def inscreveJogadores(self):
         print('### Bem-vindo ao Lig4! ### \n\nPara iniciar seu jogo, responda às seguintes perguntas: ')
