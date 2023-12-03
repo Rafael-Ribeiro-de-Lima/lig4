@@ -12,5 +12,8 @@ The game is played on a 6x7 grid, and players take turns to drop their discs int
 ## CPU Player Behavior 
 When one of the players is of the "cpu" type, their moves are randomly generated. The CPU player selects a column at random and drops its disc into the lowest available space in that column. This random move simulates the decision-making process of a computer player.
 
+## About the Name "Lig4"
+The term "Lig4" is a contraction of "Ligue 4," which is the Brazilian Portuguese equivalent of "Connect 4." The game is known by different names in various regions, and in Brazil, it is commonly referred to as "Ligue 4" or simply "Lig4." The gameplay remains the same, with players aiming to connect four discs of their color in a row.
+
 ## Note
 This project was developed as part of the curriculum for the Object-Oriented Programming Introduction course, and it may lack certain advanced features found in commercial games. The primary focus is on applying fundamental OOP concepts and principles learned during the course.
