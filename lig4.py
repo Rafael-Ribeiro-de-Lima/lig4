@@ -124,6 +124,7 @@ class Jogo:
         jogador1, jogador2 = self.inscreveJogadores()
         rodada = 1
         max_rodadas = tabuleiro.colunas * tabuleiro.linhas
+        time.sleep(1)
         tabuleiro.mostrar()
         while rodada <= max_rodadas:
             print(f'{rodada}ª Rodada')
@@ -174,7 +175,7 @@ class Jogo:
                 pecas1, pecas2 = 'O', 'X'
             else:
                 pecas1, pecas2 = 'X', 'O'
-            print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}!')
+            print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}!\n')
       
 Jogo().iniciar()
 
