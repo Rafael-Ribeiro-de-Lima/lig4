@@ -23,7 +23,6 @@ class Tabuleiro:
                 break
         return linha
         
-    
     def jogadaValida(self, coluna):
         if not isinstance(coluna, int):
             return False
@@ -34,8 +33,6 @@ class Tabuleiro:
         else:
             return True
             
-        
-        
 class Jogador:
     def __init__(self, nome='', tipo='cpu', pecas='X'):
         self.nome = nome
