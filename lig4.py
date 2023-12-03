@@ -176,14 +176,6 @@ class Jogo:
             else:
                 pecas1, pecas2 = 'X', 'O'
             print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}!')
-    
-    
-    
-        
-    #def jogada(self):
-    
-
-
-
+      
 Jogo().iniciar(Tabuleiro())
 
