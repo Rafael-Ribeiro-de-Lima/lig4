@@ -54,7 +54,7 @@ class Jogador:
             while not tabuleiro.jogadaValida(coluna):
                 coluna = random.randint(0, tabuleiro.colunas)
             linha = tabuleiro.inserirPeca(self.pecas, coluna)
-            time.sleep(2)
+            time.sleep(0)
         tabuleiro.mostrar()
         
         if self.venceu(tabuleiro, coluna, linha):
@@ -80,8 +80,8 @@ class Jogador:
                 ocorrencias_peca += 1
                 if ocorrencias_peca == 4:
                     return True
-                else:
-                    ocorrencias_peca = 0
+            else:
+                ocorrencias_peca = 0
                 
         #Verificação Diagonal Invertida
         lin = linha
@@ -128,14 +128,17 @@ class Jogo:
         rodada = 1
         max_rodadas = tabuleiro.colunas * tabuleiro.linhas
         partida_finalizada = False
+        tabuleiro.mostrar()
         while rodada <= max_rodadas and not partida_finalizada:
             print(f'{rodada}ª Rodada')
             jogadaVencedora = jogador2.jogar(tabuleiro)
             if jogadaVencedora:
-                return
-            jogador1.jogar(tabuleiro)
+                return 
+            rodada += 1
+            print(f'{rodada}ª Rodada')
+            jogadaVencedora = jogador1.jogar(tabuleiro)
             if jogadaVencedora:
-                return
+                return 
             rodada += 1
         print('O jogo terminou empatado! Que tal jogar novamente?')
         print('----- Jogo finalizado -----')
