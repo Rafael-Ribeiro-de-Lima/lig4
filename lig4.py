@@ -17,14 +17,13 @@ class Tabuleiro:
         [print(f'  {i} ', end='') for i in range(self.colunas)]
         print('\n')
 
-
     def inserirPeca(self, peca, coluna):
         linha = self.linhas
-        for l in reversed(self.tabuleiro):
+        elemento = 'espaco_ocupado'
+        while elemento != ' ':
             linha -= 1
-            if l[coluna] == ' ':
-                l[coluna] = peca
-                break
+            elemento = self.tabuleiro[linha][coluna]
+        self.tabuleiro[linha][coluna] = peca
         return linha
         
     def jogadaValida(self, coluna):
@@ -38,7 +37,7 @@ class Tabuleiro:
             return True
             
 class Jogador:
-    def __init__(self, nome='', tipo='cpu', pecas='x'):
+    def __init__(self, nome='', tipo='cpu', pecas='X'):
         self.nome = nome
         self.tipo = tipo
         self.pecas = pecas
@@ -135,7 +134,6 @@ class Jogador:
                 col -= 1                           
         return False
         
-
 class Jogo:
     def iniciar(self, tabuleiro=Tabuleiro()):
         jogador1, jogador2 = self.inscreveJogadores()
@@ -147,16 +145,16 @@ class Jogo:
             print(f'\n{rodada}ª Rodada\n')
             jogadaVencedora = jogador2.jogar(tabuleiro)
             if jogadaVencedora:
-                return 
+                return 'Jogador 2 Venceu'
             rodada += 1
             print(f'\n{rodada}ª Rodada\n')
             jogadaVencedora = jogador1.jogar(tabuleiro)
             if jogadaVencedora:
-                return 
+                return 'Jogador 1 Venceu'
             rodada += 1
         print('O jogo terminou empatado! Que tal jogar novamente?')
         print('----- Jogo finalizado -----')
-        return 
+        return 'Empate'
     
     def inscreveJogadores(self):
         print('### Bem-vindo ao Lig4! ### \n\nPara iniciar seu jogo, responda às seguintes perguntas: ')
@@ -192,7 +190,7 @@ class Jogo:
                 pecas1, pecas2 = 'O', 'X'
             else:
                 pecas1, pecas2 = 'X', 'O'
-            print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}!\n')
+            print(f'\nO outro jogador já escolheu {pecas1}, então {jogador.nome} jogará com as {pecas2}! \n')
       
 Jogo().iniciar()
 
