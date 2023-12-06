@@ -38,7 +38,7 @@ class Tabuleiro:
             return True
             
 class Jogador:
-    def __init__(self, nome='', tipo='cpu', pecas='X'):
+    def __init__(self, nome='', tipo='cpu', pecas='x'):
         self.nome = nome
         self.tipo = tipo
         self.pecas = pecas
