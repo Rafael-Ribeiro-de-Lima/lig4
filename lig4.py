@@ -9,10 +9,14 @@ class Tabuleiro:
     
     def mostrar(self):
         for l in self.tabuleiro:
-            print(str(l).replace("'", ' ').replace(', ', '|')) 
-        print('‾'*(4 * self.colunas+1))
+            print('|', end='')
+            for e in l:
+                print(f' {e} |', end='')
+            print()
+        print(f" {'‾'*(4 * self.colunas - 1)} ")
         [print(f'  {i} ', end='') for i in range(self.colunas)]
         print('\n')
+
 
     def inserirPeca(self, peca, coluna):
         linha = self.linhas
@@ -60,6 +64,16 @@ class Jogador:
             return True
         
     def venceu(self, tabuleiro, coluna, linha):
+        if self.venceuHorizontalmente(tabuleiro, linha):
+            return True
+        elif self.venceuVerticalmente(tabuleiro, coluna):
+            return True
+        elif self.venceuDiagonalmente(tabuleiro, linha, coluna):
+            return True
+        else:
+            return False
+
+    def venceuHorizontalmente(self, tabuleiro, linha):
         # Verificação Horizontal
         ocorrencias_peca = 0
         for peca in tabuleiro.tabuleiro[linha]:
@@ -69,7 +83,9 @@ class Jogador:
                     return True
             else:
                 ocorrencias_peca = 0
-        
+        return False
+
+    def venceuVerticalmente(self, tabuleiro, coluna):
         #Verificação Vertical
         ocorrencias_peca = 0
         for lin in range(tabuleiro.linhas):
@@ -79,7 +95,9 @@ class Jogador:
                     return True
             else:
                 ocorrencias_peca = 0
-                
+        return False
+
+    def venceuDiagonalmente(self, tabuleiro, linha, coluna):      
         #Verificação Diagonal (/)
         lin = linha
         col = coluna
@@ -114,8 +132,7 @@ class Jogador:
                 else:
                     ocorrencias_peca = 0
                 lin += 1
-                col -= 1
-                                          
+                col -= 1                           
         return False
         
 
@@ -127,12 +144,12 @@ class Jogo:
         time.sleep(1)
         tabuleiro.mostrar()
         while rodada <= max_rodadas:
-            print(f'{rodada}ª Rodada')
+            print(f'\n{rodada}ª Rodada\n')
             jogadaVencedora = jogador2.jogar(tabuleiro)
             if jogadaVencedora:
                 return 
             rodada += 1
-            print(f'{rodada}ª Rodada')
+            print(f'\n{rodada}ª Rodada\n')
             jogadaVencedora = jogador1.jogar(tabuleiro)
             if jogadaVencedora:
                 return 
